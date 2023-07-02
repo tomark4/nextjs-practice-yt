@@ -4,6 +4,7 @@ import Footer from "@/components/footer/Footer";
 import { Roboto } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { ReactNode } from "react";
+import AuthProvider from "@/components/auth-provider/AuthProvider";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -24,11 +25,13 @@ export default function RootLayout({ children }: Props) {
     <html lang="en">
       <body className={roboto.className}>
         <ThemeProvider>
-          <div className="container">
-            <Navbar />
-            {children}
-            <Footer />
-          </div>
+          <AuthProvider>
+            <div className="container">
+              <Navbar />
+              {children}
+              <Footer />
+            </div>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
