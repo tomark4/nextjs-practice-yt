@@ -1,7 +1,13 @@
-import { CustomFilter, Hero, SearchBar } from "@/components";
+import { CustomFilter, Hero, SearchBar, CarCard } from "@/components";
+import { fetchCars } from "@/utils";
 import React from "react";
 
-const Home = () => {
+const Home = async () => {
+  // const allCars = await fetchCars();
+
+  // console.log(allCars);
+  const isDataEmpty = false;
+
   return (
     <main className="overflow-hidden">
       <Hero />
@@ -17,6 +23,21 @@ const Home = () => {
             <CustomFilter title="year" />
           </div>
         </div>
+        {!isDataEmpty ? (
+          <section>
+            We have cars
+            <div className="home__cars-wrapper">
+              {[1, 2, 3, 4].map((car) => (
+                <CarCard car={car} />
+              ))}
+            </div>
+          </section>
+        ) : (
+          <div className="home__error-container">
+            <h2 className="text-black text-xl">Opps, no result</h2>
+            <p>Message here</p>
+          </div>
+        )}
       </div>
     </main>
   );
