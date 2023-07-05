@@ -4,9 +4,10 @@ services:
   database:
     image: mongo
     restart: always
-    ports :
+    ports:
       - 27017:27017
+    volumes:
+      - ./data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-
