@@ -39,11 +39,13 @@ async def add_task(task):
 
 # update task
 async def update_task(id, payload):
-  await collection.update_one({'_id',id}, {'$set':payload})
-  new_data = await collection.find_one({'_id': id})
+  new_data = {k:v for k,v in payload.dict().items() if v is not None}
+
+  await collection.update_one({'_id':ObjectId(id)}, {'$set':new_data})
+  new_data = await collection.find_one({'_id': ObjectId(id)})
   return new_data
 
 # delete task
-async def deleye_task(id):
-  await collection.delete_one({'_id',id})
+async def delete_task(id):
+  await collection.delete_one({'_id':ObjectId(id)})
   return True

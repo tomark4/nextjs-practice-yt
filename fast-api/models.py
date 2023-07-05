@@ -25,3 +25,13 @@ class Task(BaseModel):
     allow_population_by_field_name= True
     json_encoders = {ObjectId: str}
     
+
+class TaskUpdate(BaseModel):
+  title: Optional[str] = None
+  desc: Optional[str] = None
+  completed: Optional[bool] = False
+
+  class Config:
+    orm_mode = True
+    allow_population_by_field_name= True
+    json_encoders = {ObjectId: str}
