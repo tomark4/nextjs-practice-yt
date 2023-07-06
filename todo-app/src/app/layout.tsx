@@ -1,6 +1,7 @@
 import ToasterProvider from "@/providers/ToasterProvider";
 import "./globals.css";
 import { Montserrat } from "next/font/google";
+import Navbar from "@/components/Navbar";
 
 const montserrat = Montserrat({
   weight: ["100", "300", "400", "500", "700"],
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         <ToasterProvider />
+        <Navbar />
         {children}
       </body>
     </html>

@@ -1,13 +1,13 @@
+import { getTasks } from "@/api/tasks";
+import TaskList from "@/components/TaskList";
 import { Task } from "@/types";
-import axios from "axios";
 import React from "react";
 
 const getData = async (): Promise<Task[] | null> => {
   try {
-    const resp = await axios.get("http://localhost:8000/api/tasks");
+    const resp = await getTasks();
     return resp.data;
   } catch (e: any) {
-    console.error(e);
     return null;
   }
 };
@@ -22,12 +22,9 @@ const Home = async () => {
     <div>
       <h1 className="text-3xl mt-5 text-center font-bold">Todo task</h1>
       <div className="flex gap-3 flex-col justify-center items-center mt-5">
-        {data.map((item) => (
-          <div>
-            {item.title} - {String(item.completed)}
-          </div>
-        ))}
+        <TaskList tasks={data} />
       </div>
+      <div className="h-[50px]" />
     </div>
   );
 };
