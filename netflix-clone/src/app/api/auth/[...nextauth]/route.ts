@@ -1,12 +1,13 @@
 import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import prismadb from "@/libs/prismadb";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
+import { db } from "@/libs/database";
+import User from "@/models/User";
 
-export default NextAuth({
+const handler = NextAuth({
   providers: [
-    Credentials({
-      id: "crendentials",
+    CredentialsProvider({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: {
@@ -18,14 +19,14 @@ export default NextAuth({
           type: "password",
         },
       },
-      async authorize(credentials) {
+      async authorize(credentials): Promise<any> {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password required");
         }
 
-        const user = await prismadb.user.findUnique({
-          where: { email: credentials.email },
-        });
+        await db.connect();
+
+        const user = await User.findOne({ email: credentials.email });
 
         if (!user || !user.hashedPassword) {
           throw new Error("Email does not exists");
@@ -50,9 +51,13 @@ export default NextAuth({
   debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
+    maxAge: 2592000,
+    updateAge: 86400,
   },
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   secret: process.env.NEXTAUTH_SECRET,
 });
+
+export { handler as GET, handler as POST };

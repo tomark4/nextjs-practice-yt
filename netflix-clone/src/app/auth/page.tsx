@@ -2,21 +2,44 @@
 import Input from "@/components/Input";
 import axios from "axios";
 import React, { useCallback, useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-
   const [variant, setVariant] = useState("login");
+  const router = useRouter();
 
   const toogleVariant = useCallback(() => {
     setVariant((prev) => (prev === "login" ? "register" : "login"));
   }, []);
 
+  const login = useCallback(async () => {
+    try {
+      const resp = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+
+      if (resp?.error) {
+        alert(resp.error);
+        return;
+      }
+
+      router.push("/");
+    } catch (e) {
+      console.error(e);
+    }
+  }, [email, password, router]);
+
   const register = useCallback(async () => {
     try {
       await axios.post("/api/register", { name, email, password });
+      login();
     } catch (e) {
       console.error(e);
     }
@@ -58,7 +81,7 @@ const AuthPage = () => {
               />
               <button
                 className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
-                onClick={register}
+                onClick={variant === "login" ? login : register}
               >
                 {variant === "login" ? "Login" : "Sign up"}
               </button>

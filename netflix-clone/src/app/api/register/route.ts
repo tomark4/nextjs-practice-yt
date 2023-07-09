@@ -1,21 +1,19 @@
 import bcrypt from "bcrypt";
 import { NextResponse, NextRequest } from "next/server";
-import prismadb from "@/libs/prismadb";
+import { db } from "@/libs/database";
+import User from "@/models/User";
 
 export async function POST(req: NextRequest) {
   try {
+    await db.connect();
     const { email, name, password } = await req.json();
 
-    console.log(req.body);
-
-    const existingUser = await prismadb.user.findUnique({
-      where: { email },
-    });
+    const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       return NextResponse.json(
         {
-          error: "Email token",
+          error: "Email taken!",
         },
         { status: 422 }
       );
@@ -23,11 +21,22 @@ export async function POST(req: NextRequest) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const user = await prismadb.user.create({
-      data: { email, name, hashedPassword, image: "", emailVerify: new Date() },
+    const user = new User({
+      email,
+      name,
+      hashedPassword,
+      image: "",
+      emailVerify: new Date(),
     });
 
-    return NextResponse.json(user, { status: 200 });
+    user.save();
+    return NextResponse.json(
+      {
+        message: "Sign up success!",
+        user: { email, name, id: user._id, emailVerify: user.emailVerify },
+      },
+      { status: 200 }
+    );
   } catch (e: any) {
     console.log(e);
     return NextResponse.json({ error: e }, { status: 400 });
