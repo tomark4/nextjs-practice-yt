@@ -8,8 +8,8 @@ const userSchema = new Schema(
     emailVerify: { type: Date },
     hashedPassword: { type: String, select: false },
     favoriteIds: { type: [String] },
-    sessions: { type: mongoose.Types.ObjectId, ref: "Session" },
-    accounts: { type: mongoose.Types.ObjectId, ref: "Account" },
+    sessions: [{ type: Schema.Types.ObjectId, ref: "Session" }],
+    accounts: [{ type: Schema.Types.ObjectId, ref: "Account" }],
   },
   {
     timestamps: true,
