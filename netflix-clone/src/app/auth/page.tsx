@@ -4,6 +4,8 @@ import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
@@ -85,6 +87,20 @@ const AuthPage = () => {
               >
                 {variant === "login" ? "Login" : "Sign up"}
               </button>
+              <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+                <div
+                  onClick={() => signIn("google", { callbackUrl: "/" })}
+                  className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
+                >
+                  <FcGoogle size={32} />
+                </div>
+                <div
+                  className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
+                  onClick={() => signIn("github", { callbackUrl: "/" })}
+                >
+                  <FaGithub size={30} />
+                </div>
+              </div>
               <p className="text-neutral-500 mt-12 text-center">
                 {variant === "login"
                   ? "First time using Netflix?"
