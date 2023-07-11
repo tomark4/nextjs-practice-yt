@@ -5,14 +5,15 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 const Home = () => {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      return redirect("/auth");
+    },
+  });
 
   if (status === "loading") {
     return <p>Loading...</p>;
-  }
-
-  if (status === "unauthenticated") {
-    return redirect("/auth");
   }
 
   return (
