@@ -69,10 +69,19 @@ export const authOptions: NextAuthOptions = {
     updateAge: 86400,
   },
   jwt: {
-    secret: process.env.NEXTAUTH_JWT_SECRET,
+    // secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   secret: process.env.NEXTAUTH_SECRET,
   adapter: MongoDBAdapter(clientPromise),
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log({ user, account, profile, email, credentials });
+      if (!user) {
+        throw new Error("User does not exists!");
+      }
+      return true;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

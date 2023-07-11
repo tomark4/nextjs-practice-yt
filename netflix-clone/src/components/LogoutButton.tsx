@@ -6,7 +6,7 @@ const LogoutButton = () => {
   return (
     <>
       <button
-        onClick={() => signOut()}
+        onClick={() => signOut({ callbackUrl: "/auth" })}
         className="bg-white text-zinc-800 rounded-md w-full h-10"
       >
         Logout

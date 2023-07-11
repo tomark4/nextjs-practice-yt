@@ -1,14 +1,16 @@
 import React from "react";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "../api/auth/[...nextauth]/route";
+// import { redirect } from "next/navigation";
 
 const Profiles = async () => {
-  const session = await getServerSession(authOptions);
+  // this apply only for components server side
+  // const session = await getServerSession(authOptions);
 
-  if (session === null) {
-    redirect("/auth");
-  }
+  // console.log(session);
+  // if (session === null) {
+  //   redirect("/auth");
+  // }
 
   return (
     <div>

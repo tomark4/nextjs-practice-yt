@@ -3,7 +3,6 @@ import Input from "@/components/Input";
 import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
@@ -12,7 +11,6 @@ const AuthPage = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [variant, setVariant] = useState("login");
-  const router = useRouter();
 
   const toogleVariant = useCallback(() => {
     setVariant((prev) => (prev === "login" ? "register" : "login"));
@@ -30,8 +28,6 @@ const AuthPage = () => {
         alert(resp.error);
         return;
       }
-
-      router.push("/");
     } catch (e) {
       console.error(e);
     }
