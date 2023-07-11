@@ -42,8 +42,6 @@ export const authOptions: NextAuthOptions = {
 
         const user = await User.findOne({ email: credentials.email });
 
-        console.log(user);
-
         if (!user || !user.hashedPassword) {
           throw new Error("Email does not exists");
         }
