@@ -23,8 +23,7 @@ const AuthPage = () => {
       const resp = await signIn("credentials", {
         email,
         password,
-        redirect: false,
-        callbackUrl: "/",
+        callbackUrl: "/profiles",
       });
 
       if (resp?.error) {
@@ -36,7 +35,7 @@ const AuthPage = () => {
     } catch (e) {
       console.error(e);
     }
-  }, [email, password, router]);
+  }, [email, password]);
 
   const register = useCallback(async () => {
     try {
@@ -89,14 +88,14 @@ const AuthPage = () => {
               </button>
               <div className="flex flex-row items-center gap-4 mt-8 justify-center">
                 <div
-                  onClick={() => signIn("google", { callbackUrl: "/" })}
+                  onClick={() => signIn("google", { callbackUrl: "/profiles" })}
                   className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
                 >
                   <FcGoogle size={32} />
                 </div>
                 <div
                   className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
-                  onClick={() => signIn("github", { callbackUrl: "/" })}
+                  onClick={() => signIn("github", { callbackUrl: "/profiles" })}
                 >
                   <FaGithub size={30} />
                 </div>
