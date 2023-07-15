@@ -3,13 +3,11 @@
 import { axiosInstance } from "@/libs/axiosInstance";
 
 import Navbar from "@/components/Navbar";
-import { Movie } from "@/interfaces/Movie";
 import Billboard from "@/components/Billboard";
 import Movies from "@/components/Movies";
-import InfoModal from "@/components/InfoModal";
 import Modal from "@/components/Modal";
 
-export const getData = async (): Promise<Movie> => {
+const getData = async () => {
   const resp = await axiosInstance.get("/random/");
   return resp.data;
 };

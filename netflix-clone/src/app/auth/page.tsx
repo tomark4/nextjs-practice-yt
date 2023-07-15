@@ -40,7 +40,7 @@ const AuthPage = () => {
     } catch (e) {
       console.error(e);
     }
-  }, [email, name, password]);
+  }, [email, name, password, login]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-center bg-no-repeat bg-fixed bg-cover">
