@@ -17,6 +17,11 @@ export const getMovies = async (): Promise<Movie[]> => {
   return resp.data;
 };
 
+export const getFavorites = async (): Promise<Movie[]> => {
+  const resp = await axiosInstance.get("/favorites");
+  return resp.data;
+};
+
 const Home = async () => {
   // this apply for components client side
   // const { data: session, status } = useSession({
@@ -32,14 +37,20 @@ const Home = async () => {
 
   const movieRandom = await getData();
   const movies = await getMovies();
+  const responseFavorites = await getFavorites();
+  const favorites = responseFavorites?.map((i) => i._id);
 
   return (
     <>
-      {/* <p className="text-white text-2xl">{JSON.stringify(session)}</p> */}
       <Navbar />
       <Billboard data={movieRandom} />
       <div className="pb-40">
-        <MovieList data={movies} title="News" />
+        <MovieList data={movies} title="Trending now" favorites={favorites} />
+        <MovieList
+          data={responseFavorites}
+          title="My List"
+          favorites={favorites}
+        />
       </div>
     </>
   );
