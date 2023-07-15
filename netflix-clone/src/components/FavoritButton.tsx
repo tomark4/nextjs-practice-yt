@@ -1,21 +1,16 @@
 "use client";
 import { axiosInstance } from "@/libs/axiosInstance";
-import React, { useEffect, useState } from "react";
+import { MoviesContext } from "@/providers/MoviesProviders";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineCheck, AiOutlinePlus } from "react-icons/ai";
 
 interface Props {
   movieId: string;
-  favoriteList: string[];
-  onFinishAdd: () => void;
-  onFinishRemove: () => void;
 }
 
-const FavoriteButton = ({
-  movieId,
-  favoriteList,
-  onFinishAdd,
-  onFinishRemove,
-}: Props) => {
+const FavoriteButton = ({ movieId }: Props) => {
+  const { favorites, handleAddFavorite, handleRemoveFavorite } =
+    useContext(MoviesContext);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toogleFavorites = async () => {
@@ -25,10 +20,10 @@ const FavoriteButton = ({
         response = await axiosInstance.delete("/favorites", {
           data: { movieId },
         });
-        onFinishRemove();
+        handleRemoveFavorite(movieId);
       } else {
         response = await axiosInstance.post("/favorites", { movieId });
-        onFinishAdd();
+        handleAddFavorite(movieId);
       }
     } catch (e) {
       console.error(e);
@@ -36,8 +31,8 @@ const FavoriteButton = ({
   };
 
   useEffect(() => {
-    setIsFavorite(favoriteList.includes(movieId));
-  }, [movieId, favoriteList]);
+    setIsFavorite(favorites.includes(movieId));
+  }, [movieId, favorites]);
 
   const Icon = isFavorite ? AiOutlineCheck : AiOutlinePlus;
 

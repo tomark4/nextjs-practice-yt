@@ -1,44 +1,17 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
+import React from "react";
 import { BsFillPlayFill, BsChevronDown } from "react-icons/bs";
-
-// import FavoriteButton from "@/components/FavoriteButton";
-// import useInfoModalStore from "@/hooks/useInfoModalStore";
 import { Movie } from "@/interfaces/Movie";
-import { axiosInstance } from "@/libs/axiosInstance";
 import FavoriteButton from "./FavoritButton";
 
 interface Props {
   data: Movie;
-  userMovieList?: string[];
 }
 
-const MovieCard = ({ data, userMovieList }: Props) => {
-  // const router = useRouter();
-  // const { openModal } = useInfoModalStore();
+// TODO: modal play
+// TODO: modal more info
 
-  // const redirectToWatch = useCallback(
-  //   () => router.push(`/watch/${data.id}`),
-  //   [router, data.id]
-  // );
-  const [favorites, setFavorites] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (userMovieList) {
-      setFavorites(userMovieList);
-    }
-  }, [userMovieList]);
-
-  const handleAdd = (id: string) => {
-    setFavorites([...favorites, id]);
-  };
-
-  const handleRemove = (id: string) => {
-    const newData = favorites.filter((i) => i !== id);
-    setFavorites(newData);
-  };
-
+const MovieCard = ({ data }: Props) => {
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw]">
       <img
@@ -115,12 +88,7 @@ const MovieCard = ({ data, userMovieList }: Props) => {
             >
               <BsFillPlayFill className="text-black w-4 lg:w-6" />
             </div>
-            <FavoriteButton
-              movieId={data._id}
-              favoriteList={favorites}
-              onFinishAdd={() => handleAdd(data._id)}
-              onFinishRemove={() => handleRemove(data._id)}
-            />
+            <FavoriteButton movieId={data._id} />
             <div
               onClick={() => {}}
               className="cursor-pointer ml-auto group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300"

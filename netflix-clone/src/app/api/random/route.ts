@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
     db.disconnect();
     return NextResponse.json(movie, { status: 200 });
   } catch (e) {
+    db.disconnect();
     return NextResponse.json({ message: "Bad request" }, { status: 400 });
   }
 }

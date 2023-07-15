@@ -1,14 +1,14 @@
-import { Movie } from "@/interfaces/Movie";
+"use client";
 import MovieCard from "./MovieCard";
 import isEmpty from "lodash/isEmpty";
+import { Movie } from "@/interfaces/Movie";
 
 interface MovieListProps {
   data: Movie[];
   title: string;
-  favorites?: string[];
 }
 
-const MovieList: React.FC<MovieListProps> = ({ data, title, favorites }) => {
+const MovieList: React.FC<MovieListProps> = ({ data, title }) => {
   if (isEmpty(data)) {
     return null;
   }
@@ -21,7 +21,7 @@ const MovieList: React.FC<MovieListProps> = ({ data, title, favorites }) => {
         </p>
         <div className="grid grid-cols-4 gap-2">
           {data.map((movie) => (
-            <MovieCard key={movie._id} data={movie} userMovieList={favorites} />
+            <MovieCard key={movie._id} data={movie} />
           ))}
         </div>
       </div>

@@ -5,20 +5,10 @@ import { axiosInstance } from "@/libs/axiosInstance";
 import Navbar from "@/components/Navbar";
 import { Movie } from "@/interfaces/Movie";
 import Billboard from "@/components/Billboard";
-import MovieList from "@/components/MovieList";
+import Movies from "@/components/Movies";
 
 export const getData = async (): Promise<Movie> => {
   const resp = await axiosInstance.get("/random/");
-  return resp.data;
-};
-
-export const getMovies = async (): Promise<Movie[]> => {
-  const resp = await axiosInstance.get("/movies");
-  return resp.data;
-};
-
-export const getFavorites = async (): Promise<Movie[]> => {
-  const resp = await axiosInstance.get("/favorites");
   return resp.data;
 };
 
@@ -36,21 +26,13 @@ const Home = async () => {
   // }
 
   const movieRandom = await getData();
-  const movies = await getMovies();
-  const responseFavorites = await getFavorites();
-  const favorites = responseFavorites?.map((i) => i._id);
 
   return (
     <>
       <Navbar />
       <Billboard data={movieRandom} />
       <div className="pb-40">
-        <MovieList data={movies} title="Trending now" favorites={favorites} />
-        <MovieList
-          data={responseFavorites}
-          title="My List"
-          favorites={favorites}
-        />
+        <Movies />
       </div>
     </>
   );

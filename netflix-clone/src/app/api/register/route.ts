@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     });
 
     user.save();
+    await db.disconnect();
     return NextResponse.json(
       {
         message: "Sign up success!",
@@ -39,6 +40,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (e: any) {
     console.error(e);
+    await db.disconnect();
     return NextResponse.json({ error: e }, { status: 400 });
   }
 }
