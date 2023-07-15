@@ -1,18 +1,21 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 import PlayButton from "@/components/PlayButton";
 import { Movie } from "@/interfaces/Movie";
+import useInfoModal from "@/hooks/useInfoModalStore";
 
 interface Props {
   data: Movie;
 }
 
 const Billboard = ({ data }: Props) => {
-  // const handleOpenModal = useCallback(() => {
-  //   openModal(data?.id);
-  // }, [openModal, data?.id]);
+  const { openModal } = useInfoModal();
+
+  const handleOpenModal = useCallback(() => {
+    openModal(data?._id);
+  }, [openModal, data?._id]);
 
   return (
     <div className="relative h-[56.25vw]">
@@ -34,7 +37,7 @@ const Billboard = ({ data }: Props) => {
         <div className="flex flex-row items-center mt-3 md:mt-4 gap-3">
           <PlayButton movieId={data?._id} />
           <button
-            onClick={() => {}}
+            onClick={handleOpenModal}
             className="
             bg-white
             text-white

@@ -1,21 +1,29 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 import { BsFillPlayFill, BsChevronDown } from "react-icons/bs";
 import { Movie } from "@/interfaces/Movie";
-import FavoriteButton from "./FavoritButton";
+import FavoriteButton from "./FavoriteButton";
+import useInfoModal from "@/hooks/useInfoModalStore";
+import { useRouter } from "next/navigation";
 
 interface Props {
   data: Movie;
 }
 
-// TODO: modal play
 // TODO: modal more info
 
 const MovieCard = ({ data }: Props) => {
+  const router = useRouter();
+  const { openModal } = useInfoModal();
+
+  const handleOpenModal = useCallback(() => {
+    openModal(data?._id);
+  }, [openModal, data?._id]);
+
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw]">
       <img
-        onClick={() => {}}
+        onClick={() => router.push(`/watch/${data?._id}`)}
         src={data.thumbnailUrl}
         alt="Movie"
         draggable={false}
@@ -53,7 +61,7 @@ const MovieCard = ({ data }: Props) => {
       "
       >
         <img
-          onClick={() => {}}
+          onClick={() => router.push(`/watch/${data?._id}`)}
           src={data.thumbnailUrl}
           alt="Movie"
           draggable={false}
@@ -83,14 +91,14 @@ const MovieCard = ({ data }: Props) => {
         >
           <div className="flex flex-row items-center gap-3">
             <div
-              onClick={() => {}}
+              onClick={() => router.push(`/watch/${data?._id}`)}
               className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300"
             >
               <BsFillPlayFill className="text-black w-4 lg:w-6" />
             </div>
             <FavoriteButton movieId={data._id} />
             <div
-              onClick={() => {}}
+              onClick={handleOpenModal}
               className="cursor-pointer ml-auto group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300"
             >
               <BsChevronDown className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />

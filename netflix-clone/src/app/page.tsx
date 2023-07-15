@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 import { Movie } from "@/interfaces/Movie";
 import Billboard from "@/components/Billboard";
 import Movies from "@/components/Movies";
+import InfoModal from "@/components/InfoModal";
+import Modal from "@/components/Modal";
 
 export const getData = async (): Promise<Movie> => {
   const resp = await axiosInstance.get("/random/");
@@ -29,6 +31,7 @@ const Home = async () => {
 
   return (
     <>
+      <Modal />
       <Navbar />
       <Billboard data={movieRandom} />
       <div className="pb-40">
